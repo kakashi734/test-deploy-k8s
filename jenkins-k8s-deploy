@@ -1,20 +1,14 @@
 pipeline {
-  agent any
-  stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/your-repo/your-app.git'
+  agent any 
+  stage('Build') {
+    steps {
+      script {
+        docker.build("my-app:${env.BUILD_ID}")
       }
     }
-    stage('Build') {
-      steps {
-        script {
-          docker.build("my-app:${env.BUILD_ID}")
-        }
-      }
-    }
-    stage('Push') {
-      steps {
+  }
+   stage('Push') {
+     steps {
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
             docker.image("my-app:${env.BUILD_ID}").push()
