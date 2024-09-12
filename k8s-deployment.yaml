@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-app
 spec:
-  replicas: 1  # Use a single replica to minimize resource usage
+  replicas: 1  # Use  single replica to minimize resource usage
   strategy:
     type: RollingUpdate  # Ensure smooth updates with minimal impact
     rollingUpdate:
