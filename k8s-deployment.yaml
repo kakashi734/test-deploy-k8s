@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 1  # Use a single replica to minimize resource usage
+  strategy:
+    type: RollingUpdate  # Ensure smooth updates with minimal impact
+    rollingUpdate:
+      maxSurge: 1  # Allow only one extra pod during updates
+      maxUnavailable: 0  # Ensure no pods are unavailable during updates
+
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: "my-app:latest"  # Use a single, fixed tag for simplicity
+        ports:
+        - containerPort: 8080  # Expose the necessary port
+        resources:
+          requests:
+            memory: "32Mi"  # Minimal memory request
+            cpu: "100m"  # Minimal CPU request
+          limits:
+            memory: "64Mi"  # Minimal memory limit
+            cpu: "250m"  # Minimal CPU limit
+        env:
+        - name: ENVIRONMENT
+          value: "production"  # Example environment variable
